@@ -5,11 +5,13 @@ namespace Poker
     {
         private bool playerturn { get; set; }
         private string playername;
+        private int playermoney;
         Card[] playercards = new Card[2];
 
-        public Player(string playername, bool playerturn = false)
+        public Player(string playername, int playermoney, bool playerturn = false)
         {
             this.playername = playername;
+            this.playermoney = playermoney;
             this.playerturn = playerturn;
         }
 
@@ -31,6 +33,16 @@ namespace Poker
         public string GetPlayerName()
         {
             return playername;
+        }
+
+        public int GetPlayerMoney()
+        {
+            return playermoney;
+        }
+
+        public void SetPlayerMoney(int i)
+        {
+            playermoney = (playermoney - i);
         }
     }
 }
