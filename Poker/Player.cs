@@ -5,7 +5,7 @@ namespace Poker
     {
         private bool playerturn { get; set; }
         private string playername;
-        Card[] playercards;
+        Card[] playercards = new Card[2];
 
         public Player(string playername, bool playerturn = false)
         {
@@ -21,6 +21,16 @@ namespace Poker
         public void AddSecondCard(Card card)
         {
             playercards[1] = card;
+        }
+
+        public Card ReturnCard(int i)
+        {
+            return playercards[i];
+        }
+
+        public string GetPlayerName()
+        {
+            return playername;
         }
     }
 }

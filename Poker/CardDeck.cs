@@ -19,12 +19,9 @@ namespace Poker
             {
                 foreach (numerical ss in Enum.GetValues(typeof(numerical)))
                 {
-                    if (tt != suits.Joker && ss != numerical.Joker)
-                    {
                         Card newcard = new Card(tt, ss);
                         Deck[ti] = newcard;
                         ti++;
-                    }
                 }
             }
         }

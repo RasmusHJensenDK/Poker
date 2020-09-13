@@ -1,26 +1,45 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace Poker
 {
     public class Game
     {
-        private Player[] players;
+        private Player[] Players;
 
         public Game()
         {
             Console.WriteLine("How many players?");
             int playersinput = Convert.ToInt32(Console.ReadLine());
 
-            for (int i = 0; i < (playersinput + 1); i++)
+            this.Players = new Player[playersinput];
+
+            for (int i = 0; i < playersinput; i++)
             {
                 Console.WriteLine("Player name?");
                 string playername = Console.ReadLine();
+
                 Player player = new Player(playername);
-                players[i] = player;
+                Players[i] = player;
             }
 
-            Shuffle shuffle = new Shuffle(players);
+            Console.WriteLine("Shuffling");
+            Shuffle shuffle = new Shuffle(Players);
+            shuffle.Shuffecards();
+            Console.WriteLine("Done");
 
-            // Ended here .. This shuffle the cards.
+            /*
+            int ti = 0;
+            foreach (Card obj in shuffle.Cardsinplay())
+            {
+                //Console.WriteLine(obj.Getnumerical().ToString() + " of " + obj.GetSuits().ToString());
+                Console.WriteLine(Players[ti].GetPlayerName().ToString());
+                Console.WriteLine(Players[ti].ReturnCard(0).ToString());
+                ti++;
+            }
+            */
+            Console.WriteLine(Players[2].ReturnCard(1).ToString() + " Card ");
         }
     }
 }
+
