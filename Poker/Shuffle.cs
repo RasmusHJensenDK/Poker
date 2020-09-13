@@ -17,7 +17,7 @@ namespace Poker
 
         public void Shuffecards()
         {
-            //Shuffle 1 card at a time to each player.
+//Shuffle 1 card at a time to each player.
             for (int i = 0; i < 2; i++)
             {
                 foreach (Player player in players)
@@ -29,21 +29,21 @@ namespace Poker
                         card = deck.DrawCard();
                     }
 
-                    if (i == 1)
+                    switch(i)
                     {
-                        player.AddSecondCard(card);
-                        cardsinplay.Add(card);
+                        case 0:
+                            player.AddPlayerCard(card);
+                            cardsinplay.Add(card);
+                            break;
+                        case 1:
+                            player.AddSecondCard(card);
+                            cardsinplay.Add(card);
+                            break;
+                        default: break;
                     }
-
-                    if (i == 0)
-                    {
-                        player.AddSecondCard(card);
-                        cardsinplay.Add(card);
-                    }
-
                 }
             }
-            //Shuffle 
+//Shuffle for flop turn river
             for (int i = 0; i < 6; i++)
             {
                 Card card = deck.DrawCard();
