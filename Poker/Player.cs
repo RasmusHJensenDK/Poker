@@ -6,6 +6,7 @@ namespace Poker
         private bool playerturn { get; set; }
         private string playername;
         private int playermoney;
+        private Bet bet;
         Card[] playercards = new Card[2];
 
         public Player(string playername, int playermoney, bool playerturn = false)
@@ -43,6 +44,16 @@ namespace Poker
         public void SetPlayerMoney(int i)
         {
             playermoney = (playermoney - i);
+        }
+
+        public Bet GetBet()
+        {
+            return bet;
+        }
+
+        public void SetBet(Bet betplayer)
+        {
+            bet = betplayer;
         }
     }
 }

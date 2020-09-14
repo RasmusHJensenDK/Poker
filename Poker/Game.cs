@@ -6,9 +6,15 @@ namespace Poker
     public class Game
     {
         private Player[] Players;
+        private Win[] win;
         private Bet[] betspreflopbets;
-        private bool firstBettingRound = true;
+        private bool firstBettingRound = false;
         private Pot Potsize;
+        private bool flop;
+        private bool turn;
+        private bool river;
+        private int winningsplaceholder = 0;
+        private char BCF;
 
         public Game()
         {
@@ -18,8 +24,8 @@ namespace Poker
 
             this.Players = new Player[playersinput];
             this.betspreflopbets = new Bet[20];
+            this.win = new Win[3];
             this.Potsize = new Pot(0);
-
 //::ADD PLAYERS:://
             for (int i = 0; i < playersinput; i++)
             {
@@ -28,7 +34,7 @@ namespace Poker
 
                 Player player = new Player(playername, 5000);
                 Players[i] = player;
-            }
+            } 
 
 //::SHUFFLE DECK:://
             Console.WriteLine("Shuffling");
@@ -56,28 +62,44 @@ namespace Poker
                     Console.WriteLine("************** PRE FLOP BETTING ROUND **************");
                     foreach(Player playertoconsole in Players)
                     {
-                        Console.WriteLine("Player " + i.ToString() + " : " + Players[i].GetPlayerName() + " Money : " + Players[0].GetPlayerMoney());
+                        if(i != 0)
+                        {
+                            if (Players[i].GetBet() != null)
+                            {
+                                Console.WriteLine("Player " + i.ToString() + " : " + Players[i].GetPlayerName() + " Money : " + Players[i].GetPlayerMoney() + "||" + "Bet : " + Players[i].GetBet().GetBet().ToString());
+                            }
+                        }
+                        Console.WriteLine("Player " + i.ToString() + " : " + Players[i].GetPlayerName() + " Money : " + Players[i].GetPlayerMoney() + "||" + "Havent taken turn yet");
                         i++;
                     }
 //::PRINT FLOP TO CONSOLE:://
                     Console.WriteLine();
                     Console.WriteLine("********************** BOARD **********************");
                     Console.WriteLine("Card flop :");
-                    foreach(Card card in shuffle.Flop())
+                    if(flop)
                     {
-                        Console.WriteLine(card.Getnumerical() + " of " + card.GetSuits());
+                        foreach (Card card in shuffle.Flop())
+                        {
+                            Console.WriteLine(card.Getnumerical() + " of " + card.GetSuits());
+                        }
                     }
 //::PRINT TURN TO CONSOLE:://
                     Console.WriteLine("Card turn :");
-                    foreach (Card card in shuffle.Turn())
+                    if(turn)
                     {
-                        Console.WriteLine(card.Getnumerical() + " of " + card.GetSuits());
+                        foreach (Card card in shuffle.Turn())
+                        {
+                            Console.WriteLine(card.Getnumerical() + " of " + card.GetSuits());
+                        }
                     }
 //::PRINT RIVER TO CONSOLE:://
                     Console.WriteLine("Card river :");
-                    foreach (Card card in shuffle.River())
+                    if(river)
                     {
-                        Console.WriteLine(card.Getnumerical() + " of " + card.GetSuits());
+                        foreach (Card card in shuffle.River())
+                        {
+                            Console.WriteLine(card.Getnumerical() + " of " + card.GetSuits());
+                        }
                     }
 //::PLAYER MOVE:://
                     Console.WriteLine();
@@ -88,23 +110,22 @@ namespace Poker
                     Console.WriteLine(player.ReturnCard(1).Getnumerical() + " of " + player.ReturnCard(1).GetSuits());
                     Console.WriteLine("************** PRE FLOP BETTING ROUND **************");
 //::CHECK IF FOLD IS AN OPTION:://
-                    Console.WriteLine("(B)et (C)heck or (F)old?");
-                    char BCF = Console.ReadKey().KeyChar;
+                    if (Potsize.Returnpotsize() == 0)
+                    {
+                        Console.WriteLine("(B)et, (C)heck or (F)old?");
+                        BCF = Console.ReadKey().KeyChar;
+                    }
 
                     if(Potsize.Returnpotsize() != 0)
                     {
-                        while(BCF != 'B' || BCF != 'F')
-                        {
-                            Console.WriteLine("Check is not an option, please fold or bet");
-                            BCF = Console.ReadKey().KeyChar;
-                        }
+                        Console.WriteLine("(R)aise, (C)all, (F)old?");
+                        BCF = Console.ReadKey().KeyChar;
                     }
 
                     switch (BCF)
                     {
                         case 'B':
                             Console.WriteLine("Please enter bet");
-//::CHECK IF BET IS HIGHER THAN LAST AND CHECK ACCOUNT BALANCE:://
                             int betpreflop = Convert.ToInt32(Console.ReadLine());
 
                             if(betpreflop > player.GetPlayerMoney())
@@ -113,13 +134,11 @@ namespace Poker
                             }
 
                             Bet bet = new Bet(player, betpreflop);
-
                             Potsize.Addtopot(betpreflop);
-                           
+
                             betspreflopbets[controller] = bet;
-
                             player.SetPlayerMoney(player.GetPlayerMoney() - betpreflop);
-
+                            
                             controller++;
                             
                             Console.Clear();
@@ -130,8 +149,21 @@ namespace Poker
                         case 'F':
                             Console.Clear();
                             break;
+                        case 'K':
+                            Console.Clear();
+                            break;
                     }
                 }
+
+                Win winni = new Win(0);
+                winni.Addtowinnings(Potsize.Returnpotsize());
+                win[winningsplaceholder] = winni;
+
+                if (turn == true) river = true;
+                if (flop == true) turn = true;
+                flop = true;
+
+                winningsplaceholder++;
             } while (!firstBettingRound);
         }
     }
