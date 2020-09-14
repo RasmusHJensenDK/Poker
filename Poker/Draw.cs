@@ -5,6 +5,7 @@ namespace Poker
 {
     public class Draw
     {
+//:: IS THIS CLASS NESSECARY? IT IS NOT AN OBJECT :://
         DeckofCards deckofcards = new DeckofCards();
         List<object> cardsdrawn = new List<object>();
 
