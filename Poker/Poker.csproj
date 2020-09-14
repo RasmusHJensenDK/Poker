@@ -30,6 +30,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Bettinground.cs" />
+    <Compile Include="Board.cs" />
     <Compile Include="Pot.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

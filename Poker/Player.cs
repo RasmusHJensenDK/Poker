@@ -4,6 +4,7 @@ namespace Poker
     public class Player
     {
         private bool playerturn { get; set; }
+        private bool folded = false;
         private string playername;
         private int playermoney;
         private Bet bet;
@@ -54,6 +55,20 @@ namespace Poker
         public void SetBet(Bet betplayer)
         {
             bet = betplayer;
+        }
+        public void SetPlayerTurn(bool playerturnbool)
+        {
+            playerturn = playerturnbool;
+        }
+
+        public void SetFolded(bool setfolded)
+        {
+            folded = setfolded;
+        }
+
+        public bool GetFolded()
+        {
+            return folded;
         }
     }
 }
