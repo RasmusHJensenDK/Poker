@@ -13,7 +13,7 @@ namespace Poker
         private Pot Potsize;
         private int winningsplaceholder = 0;
         private char BCF;
-        private int controller = 0;
+        private int betinnumbers = 0;
 
 
         public Game()
@@ -102,22 +102,14 @@ namespace Poker
                     {
                         case 'B':
                             Console.WriteLine("Please enter bet");
-                            int betpreflop = Convert.ToInt32(Console.ReadLine());
-
-                            if(betpreflop > player.GetPlayerMoney())
+                            betinnumbers = Convert.ToInt32(Console.ReadLine());
+                            if(betinnumbers > player.GetPlayerMoney())
                             {
                                 Console.WriteLine("Youre too broke..");
                             }
-
-                            Bet bet = new Bet(player, betpreflop);
-
-                            Potsize.Addtopot(betpreflop);
-
-                            //betspreflopbets[controller] = bet;
-                            int asd = player.GetPlayerMoney();
-                            int dsa = (asd - betpreflop) * 1;
-                            player.SetPlayerMoney(dsa);
-                            controller++;
+                            Bet bet = new Bet(player, betinnumbers);
+                            Potsize.Addtopot(betinnumbers);
+                            player.SetPlayerMoney(player.GetPlayerMoney() - bet.GetBet());
                             Console.Clear();
                             break;
                         case 'C':
